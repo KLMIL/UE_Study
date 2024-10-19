@@ -1,0 +1,199 @@
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+[Smart Poly: Unreal Engine 5 | Blueprint For Intermediate Users (2023)] https://www.youtube.com/watch?v=cFm4tZqgYvQ
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+< Item Function > 
+-> 아이템 기능 구현
+
+---------------------------------------------------------
+
+ㅇ Assets
+ ㅁ N/A
+
+---------------------------------------------------------
+
+I. 아이템 사용 기능
+
+ㅇ [BP_PlayerCharacter]
+
+ ㅁ Event Graph
+1.
+Left Mouse Button
+-> (Func)(#1)Use Item <= Item Info <= Get Copy
+				    <== Get Inventory Arr
+				    <== Get Selected Idx
+
+
+(#1)
+Function: Use Item <= (Input)Item Info
+-> Switch On E_ItemType <= (Selection)Item Type
+			 <== Break Structure
+			  <=== (Input)Item Info
+(Consumable) -> (Func)Consume Item <= Item Info
+(Equipable)  -> (Func)Equip Item   <= Item Info
+(Readable)   -> (Func)Read Item    <= Item Info
+
+---------------------------------------------------------
+
+II. 아이템 먹기(Consume Item)
+
+ㅇ [WBP_MainWidgetHUD]
+
+ ㅁ Designer
+  - canvas
+   - progress Bar => percent에 binding 생성
+
+
+ ㅁ Function: Get Percent
+
+Get percent
+-> (@1)Cast to BP_PlayerCharacter <= Get Owining
+				     player pawn
+-> Return <= Multiply(0.01) <= (@1)Get Health
+
+
+ ㅁ Graph
+
+1. 
+Custom Event(Remove Image) <= (Input)Selected Index
+-> Switch on Int
+(0)-> Set Brush from Texture <= Image 0
+      (Texture: Empty)
+(1)-> Set Brush from Texture <= Image 1
+      (Texture: Empty)
+(2)-> Set Brush from Texture <= Image 2
+
+	*	*	*	*	*	*
+
+ㅇ [BP_PlayerCharacter]
+
+ ㅁ Event Graph
+
+1.
+Function: Consume Item <= (Input)Item Info
+-> Set Health <= (#2)
+-> Print String <= Print current HP
+-> Set Array Element <= (Target)Get Inventory Array
+		     <= (Index)Get Selected Index
+-> Remove Image <= (Target)Widget Reference
+		<= (Selected Index)Selected Index
+
+
+#2
+Input Item Info
+-> Break Structure
+-> (Damage) => +(Add) <= Get Health
+-> Clamp(Float): (Min:0.0, Max:100.0)
+-> return Health
+
+---------------------------------------------------------
+
+III. 아이템 장착
+
+ㅇ [SKM_PlayerCharacter]
+-> hand_r 아래에 WeaponSocket 생성 후 크기조절
+   ({-16.5, 1.3, 13.7}, {0, 10, 80}, {3.5, 3.5, 3.5})
+
+	*	*	*	*	*	*
+
+ㅇ [BP_PlayerCharacter]
+
+ ㅁ ViewPort
+  - Mesh 아래에 WeaponMesh: Static Mesh 생성
+
+
+ ㅁ Event Graph
+
+1.
+Function: Equip Item <= (Input)Item Info
+-> Set Static Mesh <= (Target)Weapon Mesh
+		   <= (New Mesh)Mesh <= Break Structure
+				     <== (Input)Item Info
+-> Attach Component to Component <= (Target)Weapon Mesh
+   (Socket Name: WeaponSocket)	 <= (Parent)Mesh
+
+
+2. 
+문제: 아이템 교체시 장비 해제
+해결: Add Item 수정
+Function: Add Item <= (Input)Item Info 
+-> Branch
+(True)-> Spawn Actor
+--> Branch <= (Condition)(#1)
+-->(True)-> Function(Deequip Item)(#2)
+-->(False)-> Set Array Elem (이하 기존과 동일)
+(False)-> 기존과 동일
+
+
+#1
+Get a Copy <= Get Inventory Array
+	   <= Get Selected Index
+-> Break Structure 
+=> ItemType
+-> return Equals(Equipable)
+
+
+#2
+Function: Deequip Item
+-> Set Static Mesh <= (Target)Weapon MEsh
+		   <= (NewMesh)None
+
+---------------------------------------------------------
+
+IV. 아이템 읽기
+
+ㅇ [WBP_MainWidgetHUD]
+
+ ㅁ Designer
+  - canvas
+   - vertical box(anchor:중앙) // 중앙에 배치
+    - BooxText: multiline textbox
+      (
+	크기: 채우기, 정렬 선택, 기본 텍스트 지정,
+        스타일::패딩: 4.0, 2.0, 
+        스타일::전경색:흰, 스타일::배경색: 검
+        Visibility: Hidden, 스타일::텍스트스타일::폰트::Roboto
+					     크기::40
+	IsReadOnly: true
+      )
+      // 알잘딱하게 필요한거 수정할 것
+
+
+ ㅁ Graph
+
+1.
+Custom Event(Open Book) <= (Input)InputText: Text
+-> Set Text <= (Input)Input Text
+	    <= (Target)Book Text
+-> Set Visibility <= (Target)Boox Text
+   (In Visibility: Visible)
+
+
+2.
+Custom Event(Close Book)
+-> Set Text <- (Target)Book Text
+   (Text: "")
+-> Set Visibility <= (Target)Book Text)
+   (In Visibility: Hidden)
+
+	*	*	*	*	*	*
+
+ㅇ [BP_PlayerCharacter]
+
+ ㅁ Variable
+  - IsBookOpen?: bool (Init: false)
+
+
+ ㅁ Event Graph
+
+1.
+Function: Read Item <= (Input)Item Info
+-> Branch <= (Condition)Get Is Book Open?
+(True)-> Close Book <= Get Widget Reference
+--> Set IsBookOpen? (false)
+(False)-> Open Book <= Get Widget Reference
+		    <= (ItemText)Break Structure
+		    <== Input Item Info
+--> Set IsBookOpen? (true)
+
+---------------------------------------------------------
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
