@@ -1,12 +1,12 @@
 {
     "Version": "1.2",
     "Data": {
-        "Source": "c:\\users\\user\\desktop\\programming\\repository\\09_unreal-engine\\v5.3\\unreal_study_01\\source\\unreal_study_01\\unreal_study_01.cpp",
+        "Source": "c:\\users\\user\\desktop\\ue_study\\unreal_study_01\\source\\unreal_study_01\\unreal_study_01.cpp",
         "ProvidedModule": "",
-        "PCH": "c:\\users\\user\\desktop\\programming\\repository\\09_unreal-engine\\v5.3\\unreal_study_01\\intermediate\\build\\win64\\x64\\unreal_study_01editor\\development\\engine\\sharedpch.engine.cpp20.h.pch",
+        "PCH": "c:\\users\\user\\desktop\\ue_study\\unreal_study_01\\intermediate\\build\\win64\\x64\\unreal_study_01editor\\development\\engine\\sharedpch.engine.cpp20.inclorderunreal5_0.h.pch",
         "Includes": [
-            "c:\\users\\user\\desktop\\programming\\repository\\09_unreal-engine\\v5.3\\unreal_study_01\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\unreal_study_01\\definitions.unreal_study_01.h",
-            "c:\\users\\user\\desktop\\programming\\repository\\09_unreal-engine\\v5.3\\unreal_study_01\\source\\unreal_study_01\\unreal_study_01.h"
+            "c:\\users\\user\\desktop\\ue_study\\unreal_study_01\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\unreal_study_01\\definitions.unreal_study_01.h",
+            "c:\\users\\user\\desktop\\ue_study\\unreal_study_01\\source\\unreal_study_01\\unreal_study_01.h"
         ],
         "ImportedModules": [],
         "ImportedHeaderUnits": []
