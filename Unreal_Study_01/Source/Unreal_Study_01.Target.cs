@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright Epic Games, Inc. All Rights Reserved.
 
 using UnrealBuildTool;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ public class Unreal_Study_01Target : TargetRules
 	{
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.V4;
-
-		ExtraModuleNames.AddRange( new string[] { "Unreal_Study_01" } );
+		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_3;
+		ExtraModuleNames.Add("Unreal_Study_01");
 	}
 }

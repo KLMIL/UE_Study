@@ -1,8 +1,8 @@
 {
 	"SourceFiles": [
-		"C:\\Users\\USER\\Desktop\\UE_Study\\Unreal_Study_01\\Source\\Unreal_Study_01\\Unreal_Study_01.Build.cs",
-		"C:\\Users\\USER\\Desktop\\UE_Study\\Unreal_Study_01\\Source\\Unreal_Study_01.Target.cs",
-		"C:\\Users\\USER\\Desktop\\UE_Study\\Unreal_Study_01\\Source\\Unreal_Study_01Editor.Target.cs"
+		"C:\\Users\\USER\\Desktop\\Programming\\Repository\\09_Unreal-Engine\\v5.3\\Unreal_Study_01\\Source\\Unreal_Study_01\\Unreal_Study_01.Build.cs",
+		"C:\\Users\\USER\\Desktop\\Programming\\Repository\\09_Unreal-Engine\\v5.3\\Unreal_Study_01\\Source\\Unreal_Study_01.Target.cs",
+		"C:\\Users\\USER\\Desktop\\Programming\\Repository\\09_Unreal-Engine\\v5.3\\Unreal_Study_01\\Source\\Unreal_Study_01Editor.Target.cs"
 	],
 	"EngineVersion": "5.3.2"
 }
