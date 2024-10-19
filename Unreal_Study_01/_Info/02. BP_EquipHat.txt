@@ -1,0 +1,82 @@
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+[Smart Poly: Unreal Engine 5 | Blueprint For Beginners(2023)] https://www.youtube.com/watch?v=Xw9QEMFInYU
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+< Equip Hat >
+-> 플레이어가 Collision 위에서 키보드 특정 키 입력시 해당 장비가 장착되는 BP
+
+---------------------------------------------------------
+
+ㅇ Assets
+ ㅁ User/Downloads/Blueprint Beginner/
+  - SM_Hat.fbx
+
+---------------------------------------------------------
+
+ㅇ [BP_EquipHat]
+
+ ㅁ Viewport
+  - EquipableText: Text Render Component
+    ("Press [E] To Equip Hat")
+  - HatMesh: Static Mesh(SM_Hat)
+   - HatCollision: Sphere Collision
+     (Scale: 3.0)
+
+
+ ㅁ Event Graph
+1.
+(#1)Event On Component Begin Overlap(HatCollision)
+-> Cast to Player Character
+-> Enable Input <= Get Player Controller
+
+2.
+Event On Component End Overlap(HatCollision)
+-> Cast to Player Character
+-> Disable Input <= Get Player Controller
+
+3.
+Event KeyBoard 'E'
+-> Cast to Player Character <= (#1)Other Actor -> Object
+-> (Custom Event)Equip Hat <= Get BP_PlayerCharacter
+-> Destroy Actor(Self)
+
+---------------------------------------------------------
+
+ㅇ SKM_Quinn (Menny)
+ ㅁ head 아래에 HatSocket 생성, 프리셋으로 SM_Hat 지정 후 위치조정
+   {(10, 1, 0), (-180, -90, -180), (1, 1, 1)}
+
+---------------------------------------------------------
+
+ㅇ [BP_ThirdPersonCharacter]
+
+ ㅁ Viewport
+  - Mesh(CharacterMesh0) *Constructed*
+   - HatMesh: Static Mesh -> Mesh의 SKM에서 소켓 위치 조정
+
+
+ ㅁ Event Graph
+1.
+Custom Event(Equip Hat)
+-> Set Static Mesh <= Hat Mesh
+   (New Mesh: SM_Hat)
+-> Attach Component to Component <= Target: Hat Mesh
+				 <= Parent: Mesh
+  (Socket Name: HatSocket(SKM에 생성한 소켓 이름))
+
+
+
+---------------------------------------------------------
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+
+
+
+
+
+
+
+
+
+
+
+
+

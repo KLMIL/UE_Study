@@ -1,0 +1,149 @@
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+[Smart Poly: Unreal Engine 5 | Blueprint For Beginners(2023)] https://www.youtube.com/watch?v=Xw9QEMFInYU
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+< Damage Box >
+-> HP 게이지를 표시하는 Widget 생성
+-> Collision 위에 올라갔을 때 HP 값이 내려가는 BP
+
+< Cure Box >
+-> Collision 위에 올라갔을 때 HP 값이 올라가는 BP
+
+---------------------------------------------------------
+
+ㅇ Assets
+ ㅁ UE/MarketPlace/FX Variety Pack (Free)
+  - P_ky_magicCircle1
+  - P_ky_healAura
+
+---------------------------------------------------------
+
+ㅇ [BP_DamageBox]
+
+ ㅁ Viewport
+  - P_ky_magicCircle1: Cascade Particle System Component
+  - BoxCollision: BoxCollision
+    (Scale: 3.0, Location: {0, 0, 90})
+
+
+ ㅁ Event Graph
+1. 
+On Component Begin Overlap(Box Collision)
+-> Cast to Player Character
+-> Set Timer by Event <= (#1)Custome Event(DamagePlayer)
+   (Time: 1.0, Looping: true)
+~> Promote to Variable(TimerReference)
+
+(#1)
+Custom Event(DamagePlayer)
+-> Apply Damage <= Get Player Character
+   (Base Damage: 10.0)
+   (** Damaged Actor의 Event AnyDamage 호출됨)
+
+2. 
+On Component End Overlap(Box Collision)
+-> Cast to Player Character
+-> Clear and Invalidate Timer By Handle <= (var)Get Timer
+					   Reference
+
+---------------------------------------------------------
+
+ㅇ [BP_PlayerCharacter]
+
+ ㅁ Variable
+  - Health: float // init: 100.0
+
+
+ ㅁ Event Graph
+1.
+Event AnyDamage
+-> Set Health <= (Get Health - Damage(Input))
+-> Print String <= Get Health
+   (현재 HP 출력)
+
+
+2. 
+Custom Event(Add Widget Event)
+-> Create Widget <= Get Player Controller
+-> Add to Viewport <= Create Widget
+~> Promote to Variable(Widget Reference)
+ 
+
+3.
+Event BeginPlay 
+-> Sequence 
+(0)-> /* Add Mapping Context (기존 함수) */
+(1)-> Custom Event(Add Widget Event)
+
+---------------------------------------------------------
+
+ㅇ [WBP_MainWidgetHUD]
+
+ ㅁ Designer
+  - canvas
+   - hpBox: Horizontal box
+    - hpBar: Prograss bar
+
+ ㅁ Function
+1.
+GetPercent
+-> Cast to BP_PlayerCharacter <= Get Owning Player Pawn
+-> Get Health
+-> Myltiply(0.01)
+-> Return
+
+---------------------------------------------------------
+
+ㅇ [BP_CureBox]
+
+ ㅁ Viewport
+  - P_ky_healAura: Cascade Particle System Component
+  - Box: Box Collision (Scale: 3.0)
+
+ ㅁ Event Graph
+1.
+On Component Begin Overlap(Box Collision)
+-> Cast to PlayerCharacter
+~> Promote to variable(Player Character Reference)
+-> Set Timer by Event <= (#1)Custom Event(Cure Player)
+   (Timer: 1.0, Looping: true)
+~> Promote to variable(Timer Reference)
+
+
+(#1)
+Custom Event(Cure Player)
+-> Branch <= (#2)Condition
+(True)-> Print String
+	 ("Health Is Full Now")
+(False)-> Set Health <= (var)Player Character Reference
+		     <= (#3)Health
+--> Print String <= Append("Current HP is + =>GetHealth)
+
+
+(#2)
+(var)Player Character Reference
+-> Get Health
+-> Equal(100.0)
+-> Branch
+(True)=> return Condition
+
+
+(#3)
+(var)Player Character Reference
+-> Get Health
+-> Add(10.0)
+-> Set Health => return Health
+
+
+2.
+On Component End Overlap(Box Collision)
+-> Cast to PlayerCharacter
+-> Clear and Invalidate Timer By Handle <= (var)Get Timer
+					   Reference
+
+
+
+
+
+
+---------------------------------------------------------
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
