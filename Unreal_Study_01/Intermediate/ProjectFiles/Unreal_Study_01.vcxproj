@@ -27,7 +27,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{BE24460D-49CA-31C3-ABD3-2B34EFDDD1BE}</ProjectGuid>
+    <ProjectGuid>{688A6D6A-CBCA-3972-A2A7-1A0EB366E49A}</ProjectGuid>
     <RootNamespace>Unreal_Study_01</RootNamespace>
   </PropertyGroup>
   <Import Project="UECommon.props" />

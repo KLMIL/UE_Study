@@ -1,7 +1,7 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\USER\\Desktop\\Programming\\Repository\\09_Unreal-Engine\\v5.3\\Unreal_Study_01\\Intermediate\\Build\\BuildRulesProjects\\Unreal_Study_01ModuleRules\\Unreal_Study_01ModuleRules.csproj": {}
+    "C:\\Users\\USER\\Desktop\\Programming\\Repository\\09_Unreal-Engine\\v5.3\\UE_Study\\Unreal_Study_01\\Intermediate\\Build\\BuildRulesProjects\\Unreal_Study_01ModuleRules\\Unreal_Study_01ModuleRules.csproj": {}
   },
   "projects": {
     "C:\\Program Files\\Epic Games\\UE_5.3\\Engine\\Intermediate\\Build\\BuildRulesProjects\\MarketplaceRules\\MarketplaceRules.csproj": {
@@ -1086,14 +1086,14 @@
         }
       }
     },
-    "C:\\Users\\USER\\Desktop\\Programming\\Repository\\09_Unreal-Engine\\v5.3\\Unreal_Study_01\\Intermediate\\Build\\BuildRulesProjects\\Unreal_Study_01ModuleRules\\Unreal_Study_01ModuleRules.csproj": {
+    "C:\\Users\\USER\\Desktop\\Programming\\Repository\\09_Unreal-Engine\\v5.3\\UE_Study\\Unreal_Study_01\\Intermediate\\Build\\BuildRulesProjects\\Unreal_Study_01ModuleRules\\Unreal_Study_01ModuleRules.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\USER\\Desktop\\Programming\\Repository\\09_Unreal-Engine\\v5.3\\Unreal_Study_01\\Intermediate\\Build\\BuildRulesProjects\\Unreal_Study_01ModuleRules\\Unreal_Study_01ModuleRules.csproj",
+        "projectUniqueName": "C:\\Users\\USER\\Desktop\\Programming\\Repository\\09_Unreal-Engine\\v5.3\\UE_Study\\Unreal_Study_01\\Intermediate\\Build\\BuildRulesProjects\\Unreal_Study_01ModuleRules\\Unreal_Study_01ModuleRules.csproj",
         "projectName": "Unreal_Study_01ModuleRules",
-        "projectPath": "C:\\Users\\USER\\Desktop\\Programming\\Repository\\09_Unreal-Engine\\v5.3\\Unreal_Study_01\\Intermediate\\Build\\BuildRulesProjects\\Unreal_Study_01ModuleRules\\Unreal_Study_01ModuleRules.csproj",
+        "projectPath": "C:\\Users\\USER\\Desktop\\Programming\\Repository\\09_Unreal-Engine\\v5.3\\UE_Study\\Unreal_Study_01\\Intermediate\\Build\\BuildRulesProjects\\Unreal_Study_01ModuleRules\\Unreal_Study_01ModuleRules.csproj",
         "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\USER\\Desktop\\Programming\\Repository\\09_Unreal-Engine\\v5.3\\Unreal_Study_01\\Intermediate\\Build\\BuildRulesProjects\\Unreal_Study_01ModuleRules\\obj\\",
+        "outputPath": "C:\\Users\\USER\\Desktop\\Programming\\Repository\\09_Unreal-Engine\\v5.3\\UE_Study\\Unreal_Study_01\\Intermediate\\Build\\BuildRulesProjects\\Unreal_Study_01ModuleRules\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config",

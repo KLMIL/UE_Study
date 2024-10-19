@@ -1,12 +1,12 @@
 {
     "Version": "1.2",
     "Data": {
-        "Source": "c:\\users\\user\\desktop\\programming\\repository\\09_unreal-engine\\v5.3\\unreal_study_01\\intermediate\\build\\win64\\unrealeditor\\inc\\unreal_study_01\\uht\\unreal_study_01character.gen.cpp",
+        "Source": "c:\\users\\user\\desktop\\programming\\repository\\09_unreal-engine\\v5.3\\ue_study\\unreal_study_01\\intermediate\\build\\win64\\unrealeditor\\inc\\unreal_study_01\\uht\\unreal_study_01character.gen.cpp",
         "ProvidedModule": "",
-        "PCH": "c:\\users\\user\\desktop\\programming\\repository\\09_unreal-engine\\v5.3\\unreal_study_01\\intermediate\\build\\win64\\x64\\unreal_study_01editor\\development\\engine\\sharedpch.engine.cpp20.h.pch",
+        "PCH": "c:\\users\\user\\desktop\\programming\\repository\\09_unreal-engine\\v5.3\\ue_study\\unreal_study_01\\intermediate\\build\\win64\\x64\\unreal_study_01editor\\development\\engine\\sharedpch.engine.cpp20.h.pch",
         "Includes": [
-            "c:\\users\\user\\desktop\\programming\\repository\\09_unreal-engine\\v5.3\\unreal_study_01\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\unreal_study_01\\definitions.unreal_study_01.h",
-            "c:\\users\\user\\desktop\\programming\\repository\\09_unreal-engine\\v5.3\\unreal_study_01\\source\\unreal_study_01\\unreal_study_01character.h",
+            "c:\\users\\user\\desktop\\programming\\repository\\09_unreal-engine\\v5.3\\ue_study\\unreal_study_01\\intermediate\\build\\win64\\x64\\unrealeditor\\development\\unreal_study_01\\definitions.unreal_study_01.h",
+            "c:\\users\\user\\desktop\\programming\\repository\\09_unreal-engine\\v5.3\\ue_study\\unreal_study_01\\source\\unreal_study_01\\unreal_study_01character.h",
             "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\engine\\classes\\gameframework\\character.h",
             "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\engine\\classes\\gameframework\\charactermovementreplication.h",
             "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\experimental\\iris\\core\\public\\iris\\serialization\\irisobjectreferencepackagemap.h",
@@ -15,7 +15,7 @@
             "c:\\program files\\epic games\\ue_5.3\\engine\\source\\runtime\\engine\\classes\\gameframework\\rootmotionsource.h",
             "c:\\program files\\epic games\\ue_5.3\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\rootmotionsource.generated.h",
             "c:\\program files\\epic games\\ue_5.3\\engine\\intermediate\\build\\win64\\unrealeditor\\inc\\engine\\uht\\character.generated.h",
-            "c:\\users\\user\\desktop\\programming\\repository\\09_unreal-engine\\v5.3\\unreal_study_01\\intermediate\\build\\win64\\unrealeditor\\inc\\unreal_study_01\\uht\\unreal_study_01character.generated.h"
+            "c:\\users\\user\\desktop\\programming\\repository\\09_unreal-engine\\v5.3\\ue_study\\unreal_study_01\\intermediate\\build\\win64\\unrealeditor\\inc\\unreal_study_01\\uht\\unreal_study_01character.generated.h"
         ],
         "ImportedModules": [],
         "ImportedHeaderUnits": []
