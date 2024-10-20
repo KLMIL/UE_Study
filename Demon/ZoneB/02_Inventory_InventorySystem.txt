@@ -1,0 +1,236 @@
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+[Smart Poly: Unreal Engine 5 | Blueprint For Intermediate Users (2023)] https://www.youtube.com/watch?v=cFm4tZqgYvQ
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+< Inventory System > 
+-> 인벤토리 시스템 구축
+I. 아이템 줍기 기능
+II. 인벤토리 HUD 생성
+III. 인벤토리 기능 구현
+IV. 아이템 선택 기능
+
+
+---------------------------------------------------------
+
+ㅇ Assets
+ ㅁ N/A
+
+---------------------------------------------------------
+
+I. 아이템 줍기 기능
+
+ㅇ [BP_PlayerCharacter]
+
+ ㅁ Variable
+  - InventoryArray: S Item Structure[]
+
+
+ ㅁ Event Graph
+1.
+Custom Event(PickUp Item Event) <= (Input)Item Info(@1)
+				   :S Item Structure
+-> Add to Array <= (var)Get Inventory Array
+		   <= (@1)Item Info
+
+	*	*	*	*	*	*
+
+ㅇ [BP_ItemMaster] 
+
+ ㅁ Event Graph
+(@1)
+On Component Begin Overlap(Sphere Collision)
+
+
+1.
+E key Event
+-> Cast To PlayerCharacter <= (@1)(Other Actor)
+-> (As Player)PickUp Item Event <= (var)Get Item Info
+				<= (target)Player Char
+-> Destroy Actor // 테스트 편의상 노드 연결 해제하고 진행
+
+---------------------------------------------------------
+
+II. 인벤토리 HUD 생성
+
+ㅇ [WBP_MainWidgetHUD]
+
+ ㅁ Designer
+  - canvas
+   - Inventory: Horizontal Box(Anchor: Bottom mid)
+    // 아래 Border > Image 구조 * 3개 생성
+    // 각 Border 및 Image는 배열 idx에 맞춰 네이밍
+    - InventoryBorder: Border
+      (Padding: 5.0,
+       Brush Color: {0.0, 0.0, 0.0, 0.5}
+     - InventoryImage: Image
+       (Padding: 10.0,
+	Color&Capacity: {0.2, 0.2, 0.2, 1.0}
+
+	*	*	*	*	*	*
+
+ㅇ [BP_PlayerCharacter]
+
+ ㅁ Event Graph
+1.
+Custom Event(Create Main HUD)
+-> Create Widget <= (Owning Player)Get Player Controller
+   (WBP Main Widget HUD)
+-> Add to Viewport <= (Target)return value
+~> Promote to variable(Widget Reference)
+
+
+2. 
+Event Begin Play
+-> Sequence
+(1)-> Add Mapping Context
+(2)-> Custom Event(Create Main HUD)
+
+---------------------------------------------------------
+
+III. 인벤토리 기능 구현
+
+
+III - 1) 획득한 아이템 표시
+
+ㅇ [WBP_Main Widget HUD]
+
+ ㅁ Graph
+1.
+Custom Event(Update Image) <= (Input)Item Index: int
+			   <= (Input)Item Icon: texture2D
+-> Switch on Int <= (Selection)Input Item Index
+(0): Set Brush from Texture <= (target)Image 0
+			    <= (Texture)input texture
+(1): Set Brush from Texture <= (target)Image 1
+			    <= (Texture)Input texture
+(2): Set Brush from Textrue <= (target)Image 2
+			    <= (Texture)Input texture
+
+	*	*	*	*	*	*
+
+ㅇ [BP_PlayerCharacter]
+
+ ㅁ Event Graph
+1.
+(Custom Event)PickUp Item Event <= (@input)Item Info
+				   :S Item Structure
+-> Add to Array <= (var)Get Inventory Array
+		<= (@input)Item Info
+-> Update Image <= (var)Get Widget Reference
+		<= return Index
+		<= (Item Info)Break Struct
+		 <== Get From Array <= return Index
+				    <= Get Inventory Arr
+
+---------------------------------------------------------
+
+IV. 아이템 선택 기능
+
+ㅇ [WBP_Main Widget HUD]
+
+ ㅁ Designer
+  - Border에 배열 idx에 맞춰 넘버링 후, (변수 여부: true)
+
+
+ ㅁ Graph
+1.
+Custom Event(Select Item) <= (@input)Selected Index: int
+-> Set Brush Color <= Border0, Border1, Border2
+   {0.0, 0.0, 0.0, 0.5}
+   ** 우클릭으로 호출시, "컨텍스트에 따라" 체크해제해야 검색됨.
+      or Border 한개 가져와서 호출
+-> Switch on Int <= (@input)Selected Index
+(0): Set Brush Color <= Border 0
+     {1.0, 0.8, 0.1, 1.0}
+(1): Set Brush Color <= Border 1
+     {1.0, 0.8, 0.1, 1.0}
+(2): Set Brush Color <= Border 2
+     {1.0, 0.8, 0.1, 1.0}
+
+	*	*	*	*	*	*
+
+ㅇ [BP_Player Character]
+
+ ㅁ Variable
+  - Max Inventory Index: int
+    (Init: 2)
+  - Selected Index: Int
+    (Init: 0)
+
+
+ ㅁ Event Graph
+1.
+Mouse Wheel Down
+(Pressed)->Branch <= (Condition)Equals(Selected Index,
+				   Max Inventory Index)
+(false)-> ++ <= (var)Get Selected Index
+-> Select Item <= (target)(var)Get Widget Reference
+	       <= (Selected Index)Selected Index
+
+
+2. 
+Mouse Wheel Up
+(Pressed)->Branch <= (Condition)Equals(Selected Index, 0)
+(false)-> -- <= Get Selected Index
+-> Select Item <= (target)(var)Get Widget Reference
+	       <= (Selected Index)Selected Index
+
+---------------------------------------------------------
+
+V. 주울 때 아이템 교환 기능
+
+ㅇ [S Item Structure]
+
+ ㅁ (원소 추가)Item Class: BP Item Master -> Class referenc
+   -> 각 자식 Item BP에서 본인 클래스로 Init
+
+	*	*	*	*	*	*
+
+ㅇ [BP_Player Character]
+
+ ㅁ Variable
+  - Inventory Array에 공간 할당 (3칸)
+
+
+ ㅁ Viewport
+  - Item Spawn Point: Arrow // Mesh 아래에 생성
+    ({0, 120, 150}, {0, 0, 90}, {1, 1, 1}) // 아이템 생성위치
+
+
+ ㅁ Event Graph
+1.
+Custom Event(PickUp Item Event) <= (@input)Item Info
+-> (#1)Add Item <= (item)(@input)Item Info
+  ** Collapse to function
+
+
+(#1)
+(Func)Add Item <= (@input)Item Info
+~> Promote to Variable(Item Info -> Input Item)
+-> Branch <= (#2)(Condition)
+-(True)-> Spawn Actor <= (Spawn Transform Location)
+		      <== Get World Location
+		      <=== Get Item Spawn Point
+		      <= (Class)(@1)Item Class
+---> (#3)
+-(False)-> (#3)
+
+
+(#2)
+Get Array <= (var)Get Inventory Array
+	  <= (var)Get Selected Index
+-> Break Structure(@1)
+-> (Item Class)=> Is Valid Class
+-> Condition
+
+
+(#3)
+-> Set Array Element <= (target)Get Inventory Array
+		     <== (index)(var)Get Selected Index
+		     <== (item)(@input)Item Info
+-> Update Image <= (target)(var)Get Widget Reference
+		<= (item index)(var)Get Selected Index
+		<= (Item Icon)(var)Input Item
+				   -> Break Structure
+
+---------------------------------------------------------
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■

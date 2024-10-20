@@ -1,0 +1,100 @@
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+[Smart Poly: Unreal Engine 5 | Blueprint For Beginners(2023)] https://www.youtube.com/watch?v=Xw9QEMFInYU
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
+< Hit Actor >
+-> 플레이어와 충돌하면, 플레이어의 카메라는 위치에 고정되고 캐릭터 Mesh가 충돌한 방향으로 날아가는 BP
+
+---------------------------------------------------------
+
+ㅇ Assets
+ ㅁ USER/Downloads/Blueprint Beginner
+  - SM_HitActor.fbx
+
+---------------------------------------------------------
+
+ㅇ [BP_HitActor]
+
+ ㅁ Viewport 
+  - HitActor: Static Mesh(SM_HitActor)
+   - Capsule: Capsule Collision // 회전체 망치 위치에 맞춰서
+   - Arrow: Arrow Component 	// 회전체 망치의 진행방향
+  - Rotating Movement: Rotating Movement
+    회전속도 {0, 0, 180}
+
+
+ ㅁ Variable
+  - Rotation Rate: Rotator
+    (인스턴스 편집가능: true, 스폰시 노출: true)
+
+
+ ㅁ Event Graph
+1.
+On Component Begin Overlap(Capsule Collision)
+-> Cast to PlayerCharacter
+-> HitByHitActor(@BP_PlayerCharacter)
+		<= Get Forward Vector <== Get Arrow
+
+
+2.
+Event Begin Play
+-> Set Rotation Rate <= Rotating Movement
+		     <= (var)Rotation Rate
+
+---------------------------------------------------------
+
+ㅇ [BP_PlayerCharacter]
+
+ ㅁ Variable
+  - IsKnockOut?: Boolean
+    (Init: false)
+
+
+ ㅁ Event Graph
+1.
+Custom Event(Hit By HitActor) <=(input)Hit Rotation:Rotator
+-> Branch <= Get IsKnockOut?
+(False)-> Set IsKnockOut? (ture)
+-> Set Simulate Physics <= Mesh
+   (Simulate: true)
+-> Add Impulse  <= Mesh
+		<= (#1) Impulse
+-> Disable Movement <= Character Movement
+
+-> Delay(3.0s)
+-> Set Simulate Physics <= Mesh
+   (Simulate: false)
+-> Attach Component to Component <= Target: Mesh
+				 <= Parent: Capsule Comp
+-> Set Relative Location <= Target: Mesh
+   {0, 0, -89.0}
+-> Set Relative Rotation <= Target: Mesh
+   {0, 0, 270.0}
+-> Set Movement Mode <= Target: Character Movement
+   (New Movement Mode: Walking)
+-> Set IsKnockDown? (false)
+
+
+(#1)
+Multiply(50000.0) <= (Input)Hit Rotation
+-> Break Vector
+-> Make Vector <= {X, Y, 50000.0}
+-> Add Impulse
+=> return Impulse
+
+
+(##1)
+- 문제: 컴파일시 에러 메시지
+       (콜리전 활성화를 쿼리 및 피직스 또는 피직스 전용으로 해야 충격량
+	추가가 가능합니다)
+- 원인: 모름
+- 증상: 캐릭터가 공기풍선에 바람쏘듯 멀리 날아간다.
+- 해결: 캐릭터 Mesh의 Collision Preset을 Ragdoll로 설정
+
+
+(##2)
+- 문제: 충돌 이후 카메라도 충돌하여 시점이 흔들리는 문제
+- 원인: 카메라가 콜리전과 충돌
+- 해결: HitActor의 HitActor: Static Mesh의 Collision Preset을 Custom으로 변경하고, 콜리전 반응의 "Camera: 무시"로 변경
+
+---------------------------------------------------------
+■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■■
